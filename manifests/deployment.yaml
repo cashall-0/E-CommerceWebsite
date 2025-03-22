@@ -5,7 +5,7 @@ metadata:
   labels:
     app: e-commerce-web-app
 spec:
-  replicas: 2
+  replicas: 4
   selector:
     matchLabels:
       app: e-commerce-web-app
