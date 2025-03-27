@@ -110,7 +110,7 @@ pipeline {
             steps {
                 withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'aws-credentials']]) {
                     script {
-                        // Modify the deployment.yaml file to use the new ECR image URI
+                        // Modify the deployment.yaml file to use the new ECR image URI yes
                         sh """
                         sed -i 's|image: .*|image: ${env.AWS_ACCOUNT_ID}.dkr.ecr.${env.AWS_DEFAULT_REGION}.amazonaws.com/${env.ECR_REPOSITORY}:latest|' ${env.MANIFEST_DIR}/deployment.yaml
                         """
