@@ -12,13 +12,13 @@ pipeline {
     }
 
     triggers {
-        pollSCM('H/5 * * * *')
+        githubPush()
     }
 
     stages {
         stage('Checkout Code') {
             steps {
-                git branch: 'fix/new-tf', url: 'https://github.com/cashall-0/E-CommerceWebsite.git' // Replace with your repo
+                git branch: 'dev', url: 'https://github.com/cashall-0/E-CommerceWebsite.git' // Replace with your repo
             }
         }
 
@@ -37,6 +37,19 @@ pipeline {
                 withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'aws-credentials']]) {
                     dir(env.TERRAFORM_DIR) {
                         sh 'terraform plan -out=tfplan'
+                    }
+                }
+            }
+        }
+
+        stage('Destroy Resources') {
+            when {
+                expression { return params.DESTROY_RESOURCES }  // Only execute if "DESTROY_RESOURCES" is true
+            }
+            steps {
+                withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'aws-credentials']]) {
+                    dir(env.TERRAFORM_DIR) {
+                        sh 'terraform destroy -auto-approve'
                     }
                 }
             }
@@ -110,19 +123,6 @@ pipeline {
                         kubectl apply -f ${env.MANIFEST_DIR}/service.yaml
                         """
                         sh "kubectl get svc -n default"
-                    }
-                }
-            }
-        }
-
-        stage('Destroy Resources') {
-            when {
-                expression { return params.DESTROY_RESOURCES }  // Only execute if "DESTROY_RESOURCES" is true
-            }
-            steps {
-                withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'aws-credentials']]) {
-                    dir(env.TERRAFORM_DIR) {
-                        sh 'terraform destroy -auto-approve'
                     }
                 }
             }
