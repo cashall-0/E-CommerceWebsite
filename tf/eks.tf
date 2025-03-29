@@ -29,7 +29,7 @@ resource "aws_eks_node_group" "eks_node_group" {
     min_size     = 1
   }
 
-  instance_types = ["t3.medium"]
+  instance_types = ["t2.micro"]
 
   # Use the latest AL2023 AMI for Kubernetes 1.29
   ami_type = "AL2_x86_64"

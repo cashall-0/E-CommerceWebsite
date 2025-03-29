@@ -17,6 +17,7 @@ spec:
       containers:
       - name: web-app-container
         image: your-dockerhub-username/e-commerce-web-app:latest
+        imagePullPolicy: Always
         ports:
         - containerPort: 80
       
