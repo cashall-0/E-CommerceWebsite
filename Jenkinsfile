@@ -122,6 +122,7 @@ pipeline {
                         kubectl apply -f ${env.MANIFEST_DIR}/deployment.yaml
                         kubectl apply -f ${env.MANIFEST_DIR}/service.yaml
                         kubectl rollout restart deployment e-commerce-web-app
+                        kubectl delete pods -l app=e-commerce-web-app
                         """
                         sh "kubectl get svc -n default"
                     }
