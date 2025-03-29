@@ -78,7 +78,7 @@ pipeline {
             steps {
                     script {
                         // def dockerImage = docker.build(env.DOCKER_IMAGE_NAME, '.')
-                        sh "docker build -t ${env.DOCKER_IMAGE_NAME} ."
+                        sh "docker build --no-cache -t ${env.DOCKER_IMAGE_NAME} ."
                     }
             }
         }
