@@ -121,7 +121,6 @@ pipeline {
                         sh """
                         kubectl apply -f ${env.MANIFEST_DIR}/deployment.yaml
                         kubectl apply -f ${env.MANIFEST_DIR}/service.yaml
-                        kubectl edit deployment e-commerce-web-app
                         kubectl rollout restart deployment e-commerce-web-app
                         """
                         sh "kubectl get svc -n default"
